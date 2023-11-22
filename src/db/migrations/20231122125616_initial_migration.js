@@ -25,6 +25,7 @@ exports.up = (knex) => {
       table.integer("system_id").references("id").inTable("systems");
       table.string("planet_name").notNullable();
       table.string("order").notNullable();
+      table.specificType("group_position", "FLOAT[]");
       table.specificType("args", "FLOAT[]").notNullable();
       table.specificType("position", "FLOAT[]").notNullable();
       table.string("color").notNullable();

@@ -1,10 +1,10 @@
 import { Sphere } from "@react-three/drei";
 
 const Planet = (props) => {
-  const { ref, args, position, color } = props;
+  const { name, args, position, color } = props;
 
   return (
-    <Sphere ref={ref} args={args} position={position}>
+    <Sphere name={name} args={args} position={position}>
       <meshBasicMaterial color={color} />
     </Sphere>
   );
