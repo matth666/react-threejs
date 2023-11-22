@@ -6,13 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate": "npx knex migrate:latest",
+    "rollback": "npx knex migrate:rollback",
+    "seed": "npx knex seed:run"
   },
   "dependencies": {
     "@react-three/drei": "^9.88.15",
     "@react-three/fiber": "^8.15.11",
+    "axios": "^1.6.2",
     "classnames": "^2.3.2",
+    "express": "^4.18.2",
+    "knex": "^3.0.1",
     "next": "14.0.2",
+    "objection": "^3.1.2",
+    "pg": "^8.11.3",
     "react": "^18",
     "react-dom": "^18",
     "three": "^0.158.0"

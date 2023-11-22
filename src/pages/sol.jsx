@@ -1,217 +1,229 @@
-import { OrbitControls, PerspectiveCamera, Sphere } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera, Stars } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Planet from "../../web/components/Planet";
 import Star from "../../web/components/Star";
+import axios from "axios";
 
-const Scene = () => {
+const Scene = ({ starBySystem, planetsBySystem, moonsBySystem }) => {
   return (
     <div className="flex items-center justify-center h-screen w-screen">
       <div className="h-[100%] w-[100%] bg-black">
         <Canvas camera={{ position: [1, 15, 10] }}>
-          <ambientLight args={["#00ff00", 0.25]} />
-          <directionalLight args={["#ff0000", 1]} position={[0, 0, 10]} />
+          <PerspectiveCamera />
+          <OrbitControls
+            rotateSpeed={0.1}
+            autoRotate={true}
+            autoRotateSpeed={1}
+            enableZoom={false}
+          />
+          <pointLight position={[0, 0, 0]} intensity={1.2} color="#f6f3ea" />
+          <Stars
+            radius={300}
+            depth={60}
+            count={10000}
+            factor={7}
+            saturation={0}
+            fade={true}
+          />
           <group>
             {/* sun */}
             <Star
               name="sun"
-              args={[2, 32, 16]}
-              position={[0, 0, 0]}
-              color={0xffea00}
+              args={starBySystem[0].args}
+              position={starBySystem[0].position}
+              color={starBySystem[0].color}
             />
             {/* mercury */}
             <Planet
               name="mercury"
-              args={[0.1, 32, 16]}
-              position={[1.7, 0, -2]}
-              color={0xffbe0b}
+              args={planetsBySystem[0].args}
+              position={planetsBySystem[0].position}
+              color={planetsBySystem[0].color}
             />
             {/* venus */}
             <Planet
               name="venus"
-              args={[0.3, 32, 16]}
-              position={[-3.4, 0, -1]}
-              color={0xe85d04}
+              args={planetsBySystem[1].args}
+              position={planetsBySystem[1].position}
+              color={planetsBySystem[1].color}
             />
             {/* earth */}
             <group name="earthAndMoon" position={[2.3, 0, 3.2]}>
               <Planet
                 name="earth"
-                args={[0.3, 32, 16]}
-                position={[0, 0, 0]}
-                color={0x00a8e8}
+                args={planetsBySystem[2].args}
+                position={planetsBySystem[2].position}
+                color={planetsBySystem[2].color}
               />
               <Planet
                 name="moon"
-                args={[0.05, 32, 16]}
-                position={[0.3, 0, 0.3]}
-                color={0xe7ecef}
+                args={moonsBySystem[0].args}
+                position={moonsBySystem[0].position}
+                color={moonsBySystem[0].color}
               />
             </group>
             {/* mars */}
             <group name="marsAndMoons" position={[-5.2, 0, 1.5]}>
               <Planet
                 name="mars"
-                args={[0.2, 32, 16]}
-                position={[0, 0, 0]}
-                color={0xad2831}
+                args={planetsBySystem[3].args}
+                position={planetsBySystem[3].position}
+                color={planetsBySystem[3].color}
               />
               <Planet
                 name="deimos"
-                args={[0.04, 32, 16]}
-                position={[0.2, 0, 0.3]}
-                color={0xe7ecef}
+                args={moonsBySystem[1].args}
+                position={moonsBySystem[1].position}
+                color={moonsBySystem[1].color}
               />
               <Planet
                 name="phobos"
-                args={[0.04, 32, 16]}
-                position={[-0.25, 0, -0.3]}
-                color={0xe7ecef}
+                args={moonsBySystem[2].args}
+                position={moonsBySystem[2].position}
+                color={moonsBySystem[2].color}
               />
             </group>
             {/* jupiter */}
             <group name="jupiterAndMoons" position={[6, 0, -4]}>
               <Planet
                 name="jupiter"
-                args={[1, 32, 16]}
-                position={[0, 0, 0]}
-                color={0xffbf69}
+                args={planetsBySystem[4].args}
+                position={planetsBySystem[4].position}
+                color={planetsBySystem[4].color}
               />
               <Planet
                 name="io"
-                args={[0.04, 32, 16]}
-                position={[1.5, 0, 0.3]}
-                color={0xfcca46}
+                args={moonsBySystem[3].args}
+                position={moonsBySystem[3].position}
+                color={moonsBySystem[3].color}
               />
               <Planet
                 name="europe"
-                args={[0.04, 32, 16]}
-                position={[-1.75, 0, -0.3]}
-                color={0xcae9ff}
+                args={moonsBySystem[4].args}
+                position={moonsBySystem[4].position}
+                color={moonsBySystem[4].color}
               />
               <Planet
-                name="ganymede"
-                args={[0.04, 32, 16]}
-                position={[1.3, 0, -1]}
-                color={0xb49286}
+                args={moonsBySystem[5].args}
+                position={moonsBySystem[5].position}
+                color={moonsBySystem[5].color}
               />
               <Planet
                 name="callisto"
-                args={[0.04, 32, 16]}
-                position={[-0.4, 0, 1.3]}
-                color={0xee6c4d}
+                args={moonsBySystem[6].args}
+                position={moonsBySystem[6].position}
+                color={moonsBySystem[6].color}
               />
             </group>
             {/* saturn */}
             <group name="saturnAndMoons" position={[-3, 0, 6.5]}>
               <Planet
                 name="saturn"
-                args={[0.9, 32, 16]}
-                position={[0, 0, 0]}
-                color={0xeed7c5}
+                args={planetsBySystem[5].args}
+                position={planetsBySystem[5].position}
+                color={planetsBySystem[5].color}
               />
               <Planet
                 name="thetys"
-                args={[0.04, 32, 16]}
-                position={[1.2, 0, 0.3]}
-                color={0x5f7470}
+                args={moonsBySystem[7].args}
+                position={moonsBySystem[7].position}
+                color={moonsBySystem[7].color}
               />
               <Planet
                 name="dione"
-                args={[0.04, 32, 16]}
-                position={[-1.4, 0, -0.3]}
-                color={0x5f7470}
+                args={moonsBySystem[8].args}
+                position={moonsBySystem[8].position}
+                color={moonsBySystem[8].color}
               />
               <Planet
                 name="rhea"
-                args={[0.04, 32, 16]}
-                position={[1.2, 0, -1]}
-                color={0x5f7470}
+                args={moonsBySystem[9].args}
+                position={moonsBySystem[9].position}
+                color={moonsBySystem[9].color}
               />
               <Planet
                 name="titan"
-                args={[0.05, 32, 16]}
-                position={[-1.3, 0, 1]}
-                color={0xffc971}
+                args={moonsBySystem[10].args}
+                position={moonsBySystem[10].position}
+                color={moonsBySystem[10].color}
               />
               <Planet
                 name="hyperion"
-                args={[0.04, 32, 16]}
-                position={[0.7, 0, 1.5]}
-                color={0x5f7470}
+                args={moonsBySystem[11].args}
+                position={moonsBySystem[11].position}
+                color={moonsBySystem[11].color}
               />
             </group>
             {/* uranus */}
             <group name="uranusAndMoons" position={[10, 0, 5]}>
               <Planet
                 name="uranus"
-                args={[0.7, 32, 16]}
-                position={[0, 0, 0]}
-                color={0x56cfe1}
+                args={planetsBySystem[6].args}
+                position={planetsBySystem[6].position}
+                color={planetsBySystem[6].color}
               />
               <Planet
                 name="miranda"
-                args={[0.04, 32, 16]}
-                position={[1, 0, 0.3]}
-                color={0x5f7470}
+                args={moonsBySystem[12].args}
+                position={moonsBySystem[12].position}
+                color={moonsBySystem[12].color}
               />
               <Planet
                 name="ariel"
-                args={[0.04, 32, 16]}
-                position={[-1.1, 0, -0.3]}
-                color={0x5f7470}
+                args={moonsBySystem[13].args}
+                position={moonsBySystem[13].position}
+                color={moonsBySystem[13].color}
               />
               <Planet
                 name="umbriel"
-                args={[0.04, 32, 16]}
-                position={[-0.3, 0, -1]}
-                color={0x5f7470}
+                args={moonsBySystem[14].args}
+                position={moonsBySystem[14].position}
+                color={moonsBySystem[14].color}
               />
               <Planet
                 name="titania"
-                args={[0.04, 32, 16]}
-                position={[-1, 0, 0.8]}
-                color={0x5f7470}
+                args={moonsBySystem[15].args}
+                position={moonsBySystem[15].position}
+                color={moonsBySystem[15].color}
               />
               <Planet
                 name="oberon"
-                args={[0.04, 32, 16]}
-                position={[0.4, 0, 1.3]}
-                color={0x5f7470}
+                args={moonsBySystem[16].args}
+                position={moonsBySystem[16].position}
+                color={moonsBySystem[16].color}
               />
             </group>
             {/* neptune */}
             <group name="neptuneAndMoon" position={[-9, 0, -4]}>
               <Planet
                 name="neptune"
-                args={[0.6, 32, 16]}
-                position={[0, 0, 0]}
-                color={0x4895ef}
+                args={planetsBySystem[7].args}
+                position={planetsBySystem[7].position}
+                color={planetsBySystem[7].color}
               />
               <Planet
                 name="triton"
-                args={[0.04, 32, 16]}
-                position={[-0.8, 0, -0.6]}
-                color={0xe2711d}
+                args={moonsBySystem[17].args}
+                position={moonsBySystem[17].position}
+                color={moonsBySystem[17].color}
               />
             </group>
             {/* pluton */}
             <group name="plutonAndMoon" position={[14, 0, 1.5]}>
               <Planet
                 name="pluton"
-                args={[0.6, 32, 16]}
-                position={[0, 0, 0]}
-                color={0xffb563}
+                args={planetsBySystem[8].args}
+                position={planetsBySystem[8].position}
+                color={planetsBySystem[8].color}
               />
               <Planet
                 name="charon"
-                args={[0.04, 32, 16]}
-                position={[0.9, 0, -0.6]}
-                color={0x5c677d}
+                args={moonsBySystem[18].args}
+                position={moonsBySystem[18].position}
+                color={moonsBySystem[18].color}
               />
             </group>
           </group>
-          <PerspectiveCamera />
-          <OrbitControls autoRotate={true} enableZoom={false} />
         </Canvas>
       </div>
     </div>
@@ -219,3 +231,23 @@ const Scene = () => {
 };
 
 export default Scene;
+
+export const getStaticProps = async () => {
+  const { data: starBySystem } = await axios.get(
+    "http://localhost:3000/api/systems/1/star"
+  );
+  const { data: planetsBySystem } = await axios.get(
+    "http://localhost:3000/api/systems/1/planets"
+  );
+  const { data: moonsBySystem } = await axios.get(
+    "http://localhost:3000/api/systems/1/moons"
+  );
+
+  return {
+    props: {
+      starBySystem,
+      planetsBySystem,
+      moonsBySystem,
+    },
+  };
+};
